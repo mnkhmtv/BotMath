@@ -63,7 +63,7 @@ async def process_start_command(message: types.Message):
         list_of_dirs.append(names[1])
     # не выводит кнопки, вроде с циклом все ок..
     # нажимая на кнопку с темой рандомным образом выбирается задача,
-    # НО к ней еще нужно привязать кнопку с ответом на нее..
+    # выходит с помощью /answer ответ на данную задачу
     keyboard_markup = types.InlineKeyboardMarkup(row_width=1)
     row_btns = (types.InlineKeyboardButton(text, callback_data=data) for text, data in list_of_dirs)
     keyboard_markup.add(*row_btns)
