@@ -24,16 +24,6 @@ async def process_start_command(message: types.Message):
     await message.reply(
         "Привет! Меня зовут MathHelp и я могу помочь тебе с подготовкой к ЕГЭ по математике!\nНажми /go, чтобы начать"
     )
-    #list_of_dirs: list = list()
-    #mypath = "./maths/"
-    #for dirname in os.listdir(mypath):
-    #    names = dirname.split("-")
-    #    list_of_dirs.append((names[1], "folder:" + names[0]))
-
-    #keyboard_markup = types.InlineKeyboardMarkup(row_width=1)
-    #row_btns = (types.InlineKeyboardButton(text, callback_data=data) for text, data in list_of_dirs)
-    #keyboard_markup.add(*row_btns)
-    #await message.reply('Нажми go, чтобы начать или help - он поможет тебе освоиться здесь', reply_markup=keyboard_markup)
 
 
 @dp.message_handler(commands='go')
@@ -42,6 +32,12 @@ async def process_start_command(message: types.Message):
             "Для того, чтобы получить файл со всеми формулами жми /formula. Для того, чтобы решить задачи/примеры жми /task"
     )
 
+
+@dp.message_handler(commands='back')
+async def process_start_command(message: types.Message):
+    await message.reply(
+            "Для того, чтобы получить файл со всеми формулами жми /formula. Для того, чтобы решить задачи/примеры жми /task"
+    )
 
 
 @dp.message_handler(commands='formula')
@@ -61,60 +57,24 @@ async def process_start_command(message: types.Message):
 @dp.message_handler(commands='task')
 async def process_start_command(message: types.Message):
     list_of_dirs: list = list()
-    mypath = "./задания/"
+    mypath = "./Темы/"
     for dirname in os.listdir(mypath):
         names = dirname.split(".")
-        list_of_dirs.append((names[1], "folder:" + names[0]))
-
+        list_of_dirs.append(names[1])
+    # не выводит кнопки, вроде с циклом все ок..
+    # нажимая на кнопку с темой рандомным образом выбирается задача,
+    # НО к ней еще нужно привязать кнопку с ответом на нее..
     keyboard_markup = types.InlineKeyboardMarkup(row_width=1)
     row_btns = (types.InlineKeyboardButton(text, callback_data=data) for text, data in list_of_dirs)
     keyboard_markup.add(*row_btns)
-    await message.reply('Выберите нужную тему', reply_markup=keyboard_markup)
+    await message.reply('Выберите нужную тему или нажми /back чтобы вернуться в главное менюю', reply_markup=keyboard_markup)
 
-#@dp.callback_query_handler()
-#async def inline_kb_answer_callback_handler(query: types.CallbackQuery):
-#    buttons: list = list()
-#    answer_data = query.data
-#    await query.answer(f"You answered with {answer_data!r}")
-#    keyboard_markup = types.InlineKeyboardMarkup(row_width=1)
-#    print(f"{answer_data=}")
 
-#    _tpath = answer_data.split(":")
-
-#    if _tpath[0] == "folder":
-#        paths = _deocde_to_paths(answer_data)
-#        dir_name = "/".join(paths)
-#        tg_path = [x.split("-")[0] for x in paths[1:]]
-#
-#        buttons = _get_listdir(dir_name, tg_path)
-#
-#        row_btns = (types.InlineKeyboardButton(text, callback_data=data) for text, data in buttons)
-#        keyboard_markup.add(*row_btns)
-#        await bot.edit_message_reply_markup(
-#            query.from_user.id,
-#            message_id=query.message.message_id,
-#            # "Выбери тему",
-#            reply_markup=keyboard_markup,
-#        )
-
-#    elif _tpath[0] == "file":
-#        paths = _deocde_to_paths(answer_data)
-#        file_name = "/".join(paths)
-
-#        dir_name = "/".join(paths[:-1])
-#        tg_path = [x.split("-")[0] for x in paths[1:-1]]
-
-#        buttons = _get_listdir(dir_name, tg_path)
-
-#        row_btns = (types.InlineKeyboardButton(text, callback_data=data) for text, data in buttons)
-
-#        keyboard_markup.add(*row_btns)
-#       fl = InputFile(file_name)
-#        await bot.send_document(
-#            query.from_user.id,
-#            document=fl,
-#            reply_markup=keyboard_markup,
-#        )
+@dp.message_handler(commands='answer')
+async def process_start_command(message: types.Message):
+    ist_of_dirs: list = list()
+    mypath = "./Темы/Ответы/"
+    # здесь нужно достать спарсенные ответы на задачи (как?)
 
 
 def _get_listdir(path: str, tg_path: list) -> list:
