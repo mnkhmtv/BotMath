@@ -29,14 +29,17 @@ async def process_start_command(message: types.Message):
 @dp.message_handler(commands='go')
 async def process_start_command(message: types.Message):
     await message.reply(
-            "Для того, чтобы получить файл со всеми формулами жми /formula. Для того, чтобы решить задачи/примеры жми /task"
+        """Для того, чтобы получить файл со всеми формулами жми /formula.
+        Для того, чтобы решить задачи/примеры жми /task
+       """
     )
 
 
 @dp.message_handler(commands='back')
 async def process_start_command(message: types.Message):
     await message.reply(
-            "Для того, чтобы получить файл со всеми формулами жми /formula. Для того, чтобы решить задачи/примеры жми /task"
+        "Для того, чтобы получить файл со всеми формулами жми /formula.\n\n"
+        "Для того, чтобы решить задачи/примеры жми /task"
     )
 
 
@@ -60,10 +63,12 @@ async def process_start_command(message: types.Message):
     mypath = "./Темы/"
     for dirname in os.listdir(mypath):
         names = dirname.split(".")
-        list_of_dirs.append(names[1])
+        print(names)
+        list_of_dirs.append(names[0] + names[1])
     # не выводит кнопки, вроде с циклом все ок..
     # нажимая на кнопку с темой рандомным образом выбирается задача,
     # НО к ней еще нужно привязать кнопку с ответом на нее..
+
     keyboard_markup = types.InlineKeyboardMarkup(row_width=1)
     row_btns = (types.InlineKeyboardButton(text, callback_data=data) for text, data in list_of_dirs)
     keyboard_markup.add(*row_btns)
@@ -73,7 +78,7 @@ async def process_start_command(message: types.Message):
 @dp.message_handler(commands='answer')
 async def process_start_command(message: types.Message):
     ist_of_dirs: list = list()
-    mypath = "./Темы/Ответы/"
+    mypath = "./Темы/"
     # здесь нужно достать спарсенные ответы на задачи (как?)
 
 
@@ -89,9 +94,9 @@ def _get_listdir(path: str, tg_path: list) -> list:
     return buttons
 
 
-def _deocde_to_paths(answer_data: str) -> list:
+def _decode_to_paths(answer_data: str) -> list:
     tpath = answer_data.split(":")
-    paths = ["maths"]
+    paths = ["Темы"]
     _fpath = tpath[1:]
     for d in _fpath:
         try:
