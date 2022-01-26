@@ -26,8 +26,8 @@ async def process_start_command(message: types.Message):
     )
 
 
-@dp.message_handler(commands='go')
-async def process_start_command(message: types.Message):
+@dp.message_handler(commands=['go'])
+async def process_go_command(message: types.Message):
     await message.reply(
         """Для того, чтобы получить файл со всеми формулами жми /formula.
         Для того, чтобы решить задачи/примеры жми /task
@@ -35,16 +35,16 @@ async def process_start_command(message: types.Message):
     )
 
 
-@dp.message_handler(commands='back')
-async def process_start_command(message: types.Message):
+@dp.message_handler(commands=['back'])
+async def process_back_command(message: types.Message):
     await message.reply(
         "Для того, чтобы получить файл со всеми формулами жми /formula.\n\n"
         "Для того, чтобы решить задачи/примеры жми /task"
     )
 
 
-@dp.message_handler(commands='formula')
-async def process_start_command(message: types.Message):
+@dp.message_handler(commands=['formula'])
+async def process_fotmula_command(message: types.Message):
     list_of_dirs: list = list()
     mypath = "./формула/"
     for dirname in os.listdir(mypath):
@@ -57,8 +57,8 @@ async def process_start_command(message: types.Message):
     await message.reply('Основные формулы', reply_markup=keyboard_markup)
 
 
-@dp.message_handler(commands='task')
-async def process_start_command(message: types.Message):
+@dp.message_handler(commands=['task'])
+async def process_task_command(message: types.Message):
     list_of_dirs: list = list()
     mypath = "./Темы/"
     for dirname in os.listdir(mypath):
@@ -73,8 +73,8 @@ async def process_start_command(message: types.Message):
     await message.reply('Выберите нужную тему или нажми /back чтобы вернуться в главное менюю', reply_markup=keyboard_markup)
 
 
-@dp.message_handler(commands='answer')
-async def process_start_command(message: types.Message):
+@dp.message_handler(commands=['answer'])
+async def process_answer_command(message: types.Message):
     ist_of_dirs: list = list()
     mypath = "./Темы/"
     # здесь нужно достать спарсенные ответы на задачи (как?)
