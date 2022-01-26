@@ -29,8 +29,8 @@ async def process_start_command(message: types.Message):
 @dp.message_handler(commands=['go'])
 async def process_go_command(message: types.Message):
     await message.reply(
-        """Для того, чтобы получить файл со всеми формулами жми /formula.
-        Для того, чтобы решить задачи/примеры жми /task
+        """Чтобы получить файл со всеми формулами жми /formula.\n
+        Чтобы решить задачи/примеры жми /task
        """
     )
 
@@ -38,14 +38,14 @@ async def process_go_command(message: types.Message):
 @dp.message_handler(commands=['back'])
 async def process_back_command(message: types.Message):
     await message.reply(
-        "Для того, чтобы получить файл со всеми формулами жми /formula.\n\n"
-        "Для того, чтобы решить задачи/примеры жми /task"
+        "Для того, чтобы получить файл со всеми формулами жми /formula.\nДля того, чтобы решить задачи/примеры жми /task"
     )
 
 
 @dp.message_handler(commands=['formula'])
 async def process_fotmula_command(message: types.Message):
     list_of_dirs: list = list()
+    print(list_of_dirs)
     mypath = "./формула/"
     for dirname in os.listdir(mypath):
         names = dirname.split("-")
@@ -61,14 +61,13 @@ async def process_fotmula_command(message: types.Message):
 async def process_task_command(message: types.Message):
     list_of_dirs: list = list()
     mypath = "./Темы/"
-    for dirname in os.listdir(mypath):
+    for i,dirname in enumerate(os.listdir(mypath)):
         names = dirname.split(".")
-        print(names)
-        list_of_dirs.append(names[0] + names[1])
-    # не выводит кнопки, вроде с циклом все ок..
-    # нажимая на кнопку с темой рандомным образом выбирается задача,
+        list_of_dirs.append([names[1],names[0]])
     keyboard_markup = types.InlineKeyboardMarkup(row_width=1)
-    row_btns = (types.InlineKeyboardButton(text, callback_data=data) for text, data in list_of_dirs)
+    row_btns = [types.InlineKeyboardButton(text, callback_data=data)
+    for text, data in list_of_dirs
+    ]
     keyboard_markup.add(*row_btns)
     await message.reply('Выберите нужную тему или нажми /back чтобы вернуться в главное менюю', reply_markup=keyboard_markup)
 
